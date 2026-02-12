@@ -198,6 +198,41 @@ isort src/ tests/
 ruff check src/ tests/ --fix
 ```
 
+### Update Mappings
+
+Use the helper script to add or discover import-to-package mappings in
+`src/pipwatch/mappings.json`.
+
+Add a single mapping (validated against PyPI):
+
+```bash
+python scripts/populate_mappings.py add PIL pillow --category image-processing
+```
+
+Preview without writing:
+
+```bash
+python scripts/populate_mappings.py add PIL pillow --category image-processing --dry-run
+```
+
+Discover mappings from your installed packages and preview:
+
+```bash
+python scripts/populate_mappings.py discover
+```
+
+Apply discovered mappings:
+
+```bash
+python scripts/populate_mappings.py discover --apply
+```
+
+Preview discovered mappings without writing:
+
+```bash
+python scripts/populate_mappings.py discover --apply --dry-run
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
