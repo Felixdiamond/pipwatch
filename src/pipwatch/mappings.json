@@ -1,0 +1,242 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-02-11",
+  "description": "Import name to PyPI package name mappings for Pipwatch",
+  "mappings": {
+    "PIL": {
+      "package": "pillow",
+      "category": "image-processing",
+      "verified": true
+    },
+    "cv2": {
+      "package": "opencv-python",
+      "category": "image-processing",
+      "verified": true
+    },
+    "skimage": {
+      "package": "scikit-image",
+      "category": "image-processing",
+      "verified": true
+    },
+    "sklearn": {
+      "package": "scikit-learn",
+      "category": "data-science",
+      "verified": true
+    },
+    "np": {
+      "package": "numpy",
+      "category": "data-science",
+      "verified": true
+    },
+    "pd": {
+      "package": "pandas",
+      "category": "data-science",
+      "verified": true
+    },
+    "tf": {
+      "package": "tensorflow",
+      "category": "data-science",
+      "verified": true
+    },
+    "bs4": {
+      "package": "beautifulsoup4",
+      "category": "web-scraping",
+      "verified": true
+    },
+    "lxml": {
+      "package": "lxml",
+      "category": "web-scraping",
+      "verified": true
+    },
+    "yaml": {
+      "package": "pyyaml",
+      "category": "config",
+      "verified": true
+    },
+    "dotenv": {
+      "package": "python-dotenv",
+      "category": "config",
+      "verified": true
+    },
+    "speech_recognition": {
+      "package": "SpeechRecognition",
+      "category": "audio",
+      "verified": true
+    },
+    "pydub": {
+      "package": "pydub",
+      "category": "audio",
+      "verified": true
+    },
+    "MySQLdb": {
+      "package": "mysqlclient",
+      "category": "database",
+      "verified": true
+    },
+    "psycopg2": {
+      "package": "psycopg2-binary",
+      "category": "database",
+      "verified": true
+    },
+    "pymongo": {
+      "package": "pymongo",
+      "category": "database",
+      "verified": true
+    },
+    "sqlalchemy": {
+      "package": "SQLAlchemy",
+      "category": "database",
+      "verified": true
+    },
+    "flask": {
+      "package": "Flask",
+      "category": "web-framework",
+      "verified": true
+    },
+    "django": {
+      "package": "Django",
+      "category": "web-framework",
+      "verified": true
+    },
+    "fastapi": {
+      "package": "fastapi",
+      "category": "web-framework",
+      "verified": true
+    },
+    "uvicorn": {
+      "package": "uvicorn",
+      "category": "web-server",
+      "verified": true
+    },
+    "gunicorn": {
+      "package": "gunicorn",
+      "category": "web-server",
+      "verified": true
+    },
+    "pytest": {
+      "package": "pytest",
+      "category": "testing",
+      "verified": true
+    },
+    "unittest2": {
+      "package": "unittest2",
+      "category": "testing",
+      "verified": true
+    },
+    "click": {
+      "package": "click",
+      "category": "cli",
+      "verified": true
+    },
+    "colorama": {
+      "package": "colorama",
+      "category": "cli",
+      "verified": true
+    },
+    "rich": {
+      "package": "rich",
+      "category": "cli",
+      "verified": true
+    },
+    "tqdm": {
+      "package": "tqdm",
+      "category": "cli",
+      "verified": true
+    },
+    "requests": {
+      "package": "requests",
+      "category": "http",
+      "verified": true
+    },
+    "urllib3": {
+      "package": "urllib3",
+      "category": "http",
+      "verified": true
+    },
+    "aiohttp": {
+      "package": "aiohttp",
+      "category": "http",
+      "verified": true
+    },
+    "httpx": {
+      "package": "httpx",
+      "category": "http",
+      "verified": true
+    },
+    "dateutil": {
+      "package": "python-dateutil",
+      "category": "datetime",
+      "verified": true
+    },
+    "arrow": {
+      "package": "arrow",
+      "category": "datetime",
+      "verified": true
+    },
+    "pendulum": {
+      "package": "pendulum",
+      "category": "datetime",
+      "verified": true
+    },
+    "msgpack": {
+      "package": "msgpack",
+      "category": "serialization",
+      "verified": true
+    },
+    "simplejson": {
+      "package": "simplejson",
+      "category": "serialization",
+      "verified": true
+    },
+    "ujson": {
+      "package": "ujson",
+      "category": "serialization",
+      "verified": true
+    },
+    "Crypto": {
+      "package": "pycryptodome",
+      "category": "cryptography",
+      "verified": true
+    },
+    "nacl": {
+      "package": "PyNaCl",
+      "category": "cryptography",
+      "verified": true
+    },
+    "jose": {
+      "package": "python-jose",
+      "category": "cryptography",
+      "verified": true
+    },
+    "jwt": {
+      "package": "PyJWT",
+      "category": "cryptography",
+      "verified": true
+    },
+    "slugify": {
+      "package": "python-slugify",
+      "category": "utilities",
+      "verified": true
+    },
+    "magic": {
+      "package": "python-magic",
+      "category": "utilities",
+      "verified": true
+    },
+    "pil": {
+      "package": "pillow",
+      "category": "image-processing",
+      "verified": true
+    },
+    "sphinx": {
+      "package": "Sphinx",
+      "category": "documentation",
+      "verified": true
+    },
+    "docutils": {
+      "package": "docutils",
+      "category": "documentation",
+      "verified": true
+    }
+  }
+}
