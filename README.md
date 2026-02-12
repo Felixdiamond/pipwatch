@@ -49,9 +49,19 @@ pip install pipwatch[dev]
 
 ### Basic Usage
 
-Analyze and install dependencies:
+Analyze a single file:
 ```bash
 pipwatch script.py
+```
+
+Analyze all Python files in the current directory & subdirectories:
+```bash
+pipwatch .
+```
+
+Analyze all Python files in a specific folder:
+```bash
+pipwatch myfolder/
 ```
 
 ### Dry Run (Preview Only)
@@ -59,6 +69,11 @@ pipwatch script.py
 See what would be installed without installing:
 ```bash
 pipwatch script.py --dry-run
+```
+
+Or for an entire directory:
+```bash
+pipwatch . --dry-run
 ```
 
 Example output:

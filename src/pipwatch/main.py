@@ -17,6 +17,36 @@ def setup_logging(verbose: bool = False) -> None:
     logging.basicConfig(level=level, format="%(levelname)s: %(message)s")
 
 
+def find_python_files(path: Path) -> list[Path]:
+    """Find all Python files in a directory recursively."""
+    if path.is_file():
+        return [path]
+
+    if path.is_dir():
+        skip_dirs = {
+            ".venv", "venv", "env", ".env",
+            "node_modules",
+            ".git",
+            "__pycache__",
+            ".tox",
+            "build", "dist",
+            ".eggs",
+            ".pytest_cache",
+            ".mypy_cache",
+            ".ruff_cache",
+        }
+
+        python_files = []
+        for py_file in path.rglob("*.py"):
+            if not any(part in skip_dirs for part in py_file.parts):
+                python_files.append(py_file)
+
+        logging.debug(f"Found {len(python_files)} Python files in {path}")
+        return python_files
+
+    return []
+
+
 def extract_imports(file_path: str) -> set[str]:
     """Extract all import statements from a Python file."""
     logging.debug(f"Extracting imports from {file_path}")
@@ -186,7 +216,9 @@ def parse_args() -> argparse.Namespace:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  %(prog)s script.py                    # Analyze and install dependencies
+  %(prog)s script.py                    # Analyze single file and install dependencies
+  %(prog)s .                            # Analyze all Python files in current directory
+  %(prog)s myfolder/                    # Analyze all Python files in a folder
   %(prog)s script.py --dry-run          # Show what would be installed
   %(prog)s script.py --generate         # Generate requirements.txt
   %(prog)s script.py --verbose          # Show detailed logging
@@ -199,7 +231,9 @@ Mapping Management:
         """,
     )
 
-    parser.add_argument("file_path", nargs="?", help="Path to the Python file to analyze")
+    parser.add_argument(
+        "file_path", nargs="?", help="Path to a Python file or directory to analyze"
+    )
 
     parser.add_argument(
         "--dry-run",
@@ -298,25 +332,37 @@ def main():
         logging.info("Use --help for usage information")
         sys.exit(1)
 
-    file_path = args.file_path
+    path = Path(args.file_path)
 
-    # Validate file exists
-    if not Path(file_path).exists():
-        logging.error(f"File not found: {file_path}")
+    if not path.exists():
+        logging.error(f"Path not found: {args.file_path}")
         sys.exit(1)
 
-    if not file_path.endswith(".py"):
-        logging.warning(f"Warning: {file_path} doesn't have a .py extension")
+    python_files = find_python_files(path)
 
-    logging.info(f"Analyzing {file_path}...")
+    if not python_files:
+        logging.error(f"No Python files found in {args.file_path}")
+        sys.exit(1)
 
-    # Extract dependencies
-    imports = extract_imports(file_path)
-    third_party_imports = filter_standard_library(imports)
-    pip_installs, req_file_mentioned = analyze_file_content(file_path)
+    if len(python_files) == 1:
+        logging.info(f"Analyzing {python_files[0]}...")
+    else:
+        logging.info(f"Analyzing {len(python_files)} Python files in {args.file_path}...")
 
-    # Combine all detected dependencies
-    all_deps = set(third_party_imports) | set(pip_installs)
+    all_deps = set()
+    all_pip_installs = []
+    req_file_mentioned = False
+
+    for file_path in python_files:
+        imports = extract_imports(str(file_path))
+        third_party_imports = filter_standard_library(imports)
+        pip_installs, req_mention = analyze_file_content(str(file_path))
+
+        all_deps.update(third_party_imports)
+        all_pip_installs.extend(pip_installs)
+        req_file_mentioned = req_file_mentioned or req_mention
+
+    all_deps.update(all_pip_installs)
 
     if all_deps:
         logging.info(f"\nDetected {len(all_deps)} unique dependencies total.")
@@ -325,20 +371,14 @@ def main():
         logging.info("✓ No third-party dependencies found.")
         return
 
-    # Display found dependencies
-    if third_party_imports:
-        logging.info("\nFound the following dependencies from import statements:")
-        for imp in sorted(third_party_imports):
-            pkg = map_import_to_package(imp)
-            if pkg != imp:
-                logging.info(f"  • {imp} → {pkg}")
+    if all_deps:
+        logging.info("\nFound the following dependencies:")
+        for dep in sorted(all_deps):
+            pkg = map_import_to_package(dep)
+            if pkg != dep:
+                logging.info(f"  • {dep} → {pkg}")
             else:
-                logging.info(f"  • {imp}")
-
-    if pip_installs:
-        logging.info("\nFound the following dependencies from '# pip install' comments:")
-        for pkg in sorted(pip_installs):
-            logging.info(f"  • {pkg}")
+                logging.info(f"  • {dep}")
 
     # Handle requirements.txt mention
     if req_file_mentioned:

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "last_updated": "2024-02-11",
+  "last_updated": "2026-01-12",
   "description": "Import name to PyPI package name mappings for Pipwatch",
   "mappings": {
     "PIL": {
