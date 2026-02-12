@@ -9,7 +9,6 @@ import json
 import logging
 import time
 from pathlib import Path
-from typing import Dict, Optional
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -27,7 +26,7 @@ CACHE_TTL = 86400  # 24 hours in seconds
 class MappingRegistry:
     """Registry for managing import-to-package name mappings."""
 
-    def __init__(self, use_cache: bool = True, remote_url: Optional[str] = None):
+    def __init__(self, use_cache: bool = True, remote_url: str | None = None):
         """
         Initialize the mapping registry.
 
@@ -37,14 +36,14 @@ class MappingRegistry:
         """
         self.use_cache = use_cache
         self.remote_url = remote_url or DEFAULT_MAPPINGS_URL
-        self._mappings: Optional[Dict[str, str]] = None
-        self._metadata: Optional[Dict] = None
+        self._mappings: dict[str, str] | None = None
+        self._metadata: dict | None = None
 
     def _get_bundled_mappings_path(self) -> Path:
         """Get the path to the bundled mappings.json file."""
         return Path(__file__).parent / "mappings.json"
 
-    def _load_from_file(self, file_path: Path) -> Dict:
+    def _load_from_file(self, file_path: Path) -> dict:
         """Load mappings from a JSON file."""
         try:
             with open(file_path, encoding="utf-8") as f:
@@ -55,7 +54,7 @@ class MappingRegistry:
             logging.error(f"Failed to load mappings from {file_path}: {e}")
             return {}
 
-    def _load_from_url(self, url: str, timeout: int = 5) -> Optional[Dict]:
+    def _load_from_url(self, url: str, timeout: int = 5) -> dict | None:
         """
         Load mappings from a remote URL.
 
@@ -83,7 +82,7 @@ class MappingRegistry:
             logging.debug(f"Unexpected error fetching remote mappings: {e}")
             return None
 
-    def _save_to_cache(self, data: Dict) -> None:
+    def _save_to_cache(self, data: dict) -> None:
         """Save mappings data to cache file."""
         if not self.use_cache:
             return
@@ -97,7 +96,7 @@ class MappingRegistry:
         except Exception as e:
             logging.debug(f"Failed to save cache: {e}")
 
-    def _load_from_cache(self) -> Optional[Dict]:
+    def _load_from_cache(self) -> dict | None:
         """Load mappings from cache if valid."""
         if not self.use_cache or not CACHE_FILE.exists():
             return None
@@ -120,7 +119,7 @@ class MappingRegistry:
             logging.debug(f"Failed to load cache: {e}")
             return None
 
-    def _parse_mappings(self, data: Dict) -> Dict[str, str]:
+    def _parse_mappings(self, data: dict) -> dict[str, str]:
         """
         Parse mappings data into a simple import->package dictionary.
 
@@ -143,7 +142,7 @@ class MappingRegistry:
 
         return mappings
 
-    def load_mappings(self, force_refresh: bool = False) -> Dict[str, str]:
+    def load_mappings(self, force_refresh: bool = False) -> dict[str, str]:
         """
         Load mappings from available sources with fallback chain.
 
@@ -210,7 +209,7 @@ class MappingRegistry:
             return self._metadata.get("version", "unknown")
         return "unknown"
 
-    def get_stats(self) -> Dict:
+    def get_stats(self) -> dict:
         """Get statistics about the loaded mappings."""
         mappings = self.load_mappings()
         stats = {
@@ -246,10 +245,10 @@ class MappingRegistry:
 
 
 # Global registry instance
-_global_registry: Optional[MappingRegistry] = None
+_global_registry: MappingRegistry | None = None
 
 
-def get_registry(use_cache: bool = True, remote_url: Optional[str] = None) -> MappingRegistry:
+def get_registry(use_cache: bool = True, remote_url: str | None = None) -> MappingRegistry:
     """
     Get or create the global mapping registry instance.
 
