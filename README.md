@@ -34,10 +34,22 @@ Pipwatch parses your Python files for imports, filters out standard library modu
 - `--clear-cache` - Clear cached mappings
 - `--show-mappings` - Show mapping statistics
 
+### Directory Scanning
+- Point pipwatch at a directory instead of a single file to scan everything
+- Automatically skips `.venv`, `node_modules`, `__pycache__`, `build`, `dist`, and other junk directories
+
+### Installer Support
+- Works with both pip and [uv](https://github.com/astral-sh/uv) — if uv is on your PATH, pipwatch will use it automatically
+
 ## Installation
 
 ```bash
 pip install pipwatch
+```
+
+or with uv:
+```bash
+uv add pipwatch
 ```
 
 For development:

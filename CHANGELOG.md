@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-02-12
+
+### Added
+- Directory scanning — run `pipwatch .` or `pipwatch myfolder/` to analyze all Python files recursively
+- Smart directory filtering — automatically skips `.venv`, `node_modules`, `__pycache__`, `build`, `dist`, etc.
+- uv support — detects if `uv` is available and uses it instead of pip for installs
+
 ## [0.0.1] - 2026-02-12
 
 ### Added

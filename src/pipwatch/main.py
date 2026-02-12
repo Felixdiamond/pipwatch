@@ -3,6 +3,7 @@ import ast
 import importlib.metadata
 import logging
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -108,6 +109,12 @@ def map_import_to_package(import_name: str) -> str:
     return registry_map(import_name)
 
 
+def get_install_cmd() -> list[str]:
+    if shutil.which("uv"):
+        return ["uv", "pip", "install"]
+    return [sys.executable, "-m", "pip", "install"]
+
+
 def install_dependencies(dependencies: set[str], dry_run: bool = False) -> None:
     """Install missing dependencies with progress indicators.
 
@@ -141,11 +148,12 @@ def install_dependencies(dependencies: set[str], dry_run: bool = False) -> None:
 
     failed = []
     suppress_output = not logging.getLogger().isEnabledFor(logging.DEBUG)
+    install_cmd = get_install_cmd()
     for i, dep in enumerate(to_install, 1):
         logging.info(f"\n[{i}/{len(to_install)}] Installing {dep}...")
         try:
             subprocess.check_call(
-                [sys.executable, "-m", "pip", "install", dep, "-q"],
+                [*install_cmd, dep, "-q"],
                 stdout=subprocess.DEVNULL if suppress_output else None,
             )
             logging.info(f"✓ Successfully installed {dep}")
@@ -287,7 +295,7 @@ Mapping Management:
         help="Show statistics about loaded package mappings",
     )
 
-    parser.add_argument("--version", action="version", version="%(prog)s 1.0.4")
+    parser.add_argument("--version", action="version", version="%(prog)s 0.0.3")
 
     return parser.parse_args()
 
@@ -398,7 +406,7 @@ def main():
             try:
                 logging.info("Installing from requirements.txt...")
                 subprocess.check_call(
-                    [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"]
+                    [*get_install_cmd(), "-r", "requirements.txt"]
                 )
                 logging.info("✓ Dependencies from requirements.txt installed successfully!")
             except subprocess.CalledProcessError:
