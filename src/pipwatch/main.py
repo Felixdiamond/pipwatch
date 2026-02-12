@@ -6,7 +6,6 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from typing import List, Set, Tuple
 
 from .mapping_registry import get_registry
 from .mapping_registry import map_import_to_package as registry_map
@@ -18,7 +17,7 @@ def setup_logging(verbose: bool = False) -> None:
     logging.basicConfig(level=level, format="%(levelname)s: %(message)s")
 
 
-def extract_imports(file_path: str) -> Set[str]:
+def extract_imports(file_path: str) -> set[str]:
     """Extract all import statements from a Python file."""
     logging.debug(f"Extracting imports from {file_path}")
     try:
@@ -44,7 +43,7 @@ def extract_imports(file_path: str) -> Set[str]:
     return imports
 
 
-def filter_standard_library(imports: Set[str]) -> Set[str]:
+def filter_standard_library(imports: set[str]) -> set[str]:
     """Filter out standard library modules from imports."""
     standard_libs = set(sys.stdlib_module_names)
     third_party = {imp for imp in imports if imp not in standard_libs}
@@ -52,7 +51,7 @@ def filter_standard_library(imports: Set[str]) -> Set[str]:
     return third_party
 
 
-def get_installed_packages() -> Set[str]:
+def get_installed_packages() -> set[str]:
     """Get a set of all installed package names."""
     try:
         installed = {
@@ -75,7 +74,7 @@ def map_import_to_package(import_name: str) -> str:
     return registry_map(import_name)
 
 
-def install_dependencies(dependencies: Set[str], dry_run: bool = False) -> None:
+def install_dependencies(dependencies: set[str], dry_run: bool = False) -> None:
     """Install missing dependencies with progress indicators.
 
     Args:
@@ -129,7 +128,7 @@ def install_dependencies(dependencies: Set[str], dry_run: bool = False) -> None:
         logging.info("\n✓ All dependencies installed successfully!")
 
 
-def analyze_file_content(file_path: str) -> Tuple[List[str], bool]:
+def analyze_file_content(file_path: str) -> tuple[list[str], bool]:
     """Analyze file content for pip install comments and requirements.txt references.
 
     Args:
@@ -157,7 +156,7 @@ def analyze_file_content(file_path: str) -> Tuple[List[str], bool]:
 
 
 def generate_requirements_file(
-    dependencies: Set[str], output_path: str = "requirements.txt"
+    dependencies: set[str], output_path: str = "requirements.txt"
 ) -> None:
     """Generate a requirements.txt file from detected dependencies.
 
