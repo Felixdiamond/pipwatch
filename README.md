@@ -10,20 +10,6 @@ Detect import statements in Python files and install the corresponding PyPI pack
 
 Pipwatch parses your Python files for imports, filters out standard library modules, maps import names to PyPI package names where they differ (e.g. `PIL` to `pillow`, `cv2` to `opencv-python`), and installs whatever is missing.
 
-## What's New in v1.0.0
-
-Major rewrite from the original release:
-
-- 50+ import-to-package mappings (up from 6)
-- Dry-run mode: preview what would be installed
-- Generate `requirements.txt` from detected imports
-- Verbose logging for debugging
-- Uses `importlib.metadata` instead of deprecated `pkg_resources`
-- Type hints throughout
-- Test suite with pytest
-- CI across Python 3.10-3.13 on Linux, macOS, and Windows
-- Dynamic mapping registry with GitHub-hosted updates and local caching
-
 ## Features
 
 ### Import Detection

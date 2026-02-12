@@ -15,8 +15,7 @@ from urllib.request import Request, urlopen
 
 # Default GitHub URL for the mappings file
 DEFAULT_MAPPINGS_URL = (
-    "https://raw.githubusercontent.com/Felixdiamond/pipwatch/"
-    "main/src/pipwatch/mappings.json"
+    "https://raw.githubusercontent.com/Felixdiamond/pipwatch/" "main/src/pipwatch/mappings.json"
 )
 
 # Cache settings
@@ -250,9 +249,7 @@ class MappingRegistry:
 _global_registry: Optional[MappingRegistry] = None
 
 
-def get_registry(
-    use_cache: bool = True, remote_url: Optional[str] = None
-) -> MappingRegistry:
+def get_registry(use_cache: bool = True, remote_url: Optional[str] = None) -> MappingRegistry:
     """
     Get or create the global mapping registry instance.
 
