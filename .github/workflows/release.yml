@@ -36,9 +36,9 @@ jobs:
         run: twine check --strict dist/*
 
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish
+        uses: pypa/gh-action-pypi-publish@v1.13.0
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release
+        uses: softprops/action-gh-release@v2
         with:
           files: dist/*
