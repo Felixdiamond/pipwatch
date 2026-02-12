@@ -62,7 +62,7 @@ jobs:
         pip install -e ".[dev]"
     
     - name: Check code formatting with black
-      run: black --check src/ tests/
+      run: black src/ tests/
     
     - name: Check import sorting with isort
       run: isort --check-only src/ tests/

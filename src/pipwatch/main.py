@@ -24,12 +24,16 @@ def find_python_files(path: Path) -> list[Path]:
 
     if path.is_dir():
         skip_dirs = {
-            ".venv", "venv", "env", ".env",
+            ".venv",
+            "venv",
+            "env",
+            ".env",
             "node_modules",
             ".git",
             "__pycache__",
             ".tox",
-            "build", "dist",
+            "build",
+            "dist",
             ".eggs",
             ".pytest_cache",
             ".mypy_cache",
